@@ -1,6 +1,6 @@
 ---
 title: "Un joli titre pour le dashboard"
-author: "Marie-Pierre Etienne"
+author: "Florence Ghestem et Gaëlle Hamelin"
 output: 
   flexdashboard::flex_dashboard:
     theme: bootstrap
