@@ -1,3 +1,5 @@
+library(tidyr)
+library(ggplot2)
 # Classement des pays les plus émetteurs de CO2 (t/hab) par ordre décroissant en 2016
 
 CO2tot_2016<-temporel %>% filter(Annee=="2016")
