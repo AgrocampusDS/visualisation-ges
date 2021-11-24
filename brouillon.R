@@ -1,5 +1,7 @@
-library(tidyr)
+library(tidyverse)
 library(ggplot2)
+library(dplyr)
+
 temporel<-read.csv("temporel.csv",header=T,sep=";")
 
 # Classement des pays les plus émetteurs de CO2 (t/hab) par ordre décroissant en 2016
