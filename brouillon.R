@@ -1,5 +1,7 @@
 library(tidyr)
 library(ggplot2)
+temporel<-read.csv("temporel.csv",header=T,sep=";")
+
 # Classement des pays les plus émetteurs de CO2 (t/hab) par ordre décroissant en 2016
 
 CO2tot_2016<-temporel %>% filter(Annee=="2016")
@@ -12,6 +14,7 @@ graphgen<-CO2tot_2016 %>%
   theme(axis.text.x = element_text(face="bold", color="#993333", size=9, angle=90))+
   labs(y='CO2 (t/hab)',hjust=0.9)
 labs(title='Classement des pays les plus émetteurs de CO2 par ordre décroissant en 2016')
+
 graphgen
 
 
