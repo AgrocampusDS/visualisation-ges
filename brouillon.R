@@ -5,6 +5,8 @@ library(dplyr)
 temporel<-read.csv("temporel.csv",header=T,sep=";")
 GES<-read.csv("GES1.csv", header = T, sep=";")
 
+test<-read.csv("GES3.csv", header = T, sep=";")
+
 # graphique 1 : proportions mondiales d'émmissions de CO2 par pays 
 
 GES %>% 
@@ -21,7 +23,6 @@ GES %>%
   geom_text(aes(label=prop), vjust=1.6, color="white", size=3.5)+
   theme_minimal() 
   
-
 
 # Classement des pays les plus émetteurs de CO2 (t/hab) par ordre décroissant en 2016
 
