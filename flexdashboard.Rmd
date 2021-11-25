@@ -58,7 +58,7 @@ Row
 ### Une forte variabilité entre pays...
 
 ```{r bp1, echo = FALSE,  message = FALSE, warning=FALSE}
-# Barplot des émissions de CO2 totales 
+# Barplot des émissions de CO2 total 
 p1<-GES  %>%
   # calcul des proportions totales (CO2 + CH4)
   mutate(tot = CO2_2016+CH4_2016) %>% 
@@ -94,8 +94,8 @@ p1
 
 ```{r bp2, echo = FALSE,  message = FALSE, warning=FALSE}
 
-# graph des émissions de CO2 totales rammenée à 1000 habitants
-p2<-temporel %>%
+# graph des émissions de CO2 total (tonne) rammené par habitant
+p2<-temporel3 %>%
   filter(Annee=="2016") %>%
   slice(1:20) %>%
   ggplot() + 
@@ -104,9 +104,9 @@ p2<-temporel %>%
   # geom_bar(aes(y=accentuation2),
   #          stat="identity",
   #          fill = "#FC7753") +
-  # ggtitle("Pays ayant des émissions de CO2 totales \n pour 1000 habitants les plus élevées") +
+  # ggtitle("Pays ayant des émissions de CO2 total \n par habitant les plus élevées") +
   # xlab("") +
-  # ylab("Emmission de CO2 totale \n (tonnes / 1000 habitants)") +
+  # ylab("Emmission de CO2 totale \n (tonne /  habitant)") +
   # geom_text(aes(label=round(TOTAL,1)), position=position_dodge(width=0.9), vjust=-0.25) +
   # theme(
   #   panel.background = element_blank(),
