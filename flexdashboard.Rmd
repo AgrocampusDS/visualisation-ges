@@ -104,9 +104,9 @@ p2<-temporel %>%
   geom_bar(aes(y=accentuation2),
            stat="identity",
            fill = "#FC7753") +  
-  ggtitle("Pays ayant des émissions de CO2 totales \n pour 1000 habitants les plus élevées") +
-  xlab("") +
-  ylab("Emmission de CO2 totale \n (tonnes / 1000 habitants)") +
+  #ggtitle("Pays ayant des émissions de CO2 totales \n pour 1000 habitants les plus élevées") +
+  #xlab("") +
+  #ylab("Emmission de CO2 totale \n (tonnes / 1000 habitants)") +
   geom_text(aes(label=round(TOTAL,1)), position=position_dodge(width=0.9), vjust=-0.25) +
   theme(
     panel.background = element_blank(),
