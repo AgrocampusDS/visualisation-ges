@@ -78,7 +78,7 @@ p2<-CO2tot_2016 %>%
   geom_bar(stat = 'identity',fill ="steelblue")+ 
   ggtitle("Pays ayant des émissions de CO2 totales \n par habitant les plus élevées") +
   xlab("") +
-  ylab("Émmission de CO2 totale (tonnes par habitant)") +
+  ylab("Emmission de CO2 totale (tonnes par habitant)") +
   geom_text(aes(label=round(TOTAL,0)), vjust=1.6, color="white", size=3.5)+
   theme(axis.text.x = element_text(face="bold", size=9, angle=90,hjust = 1))
 p2
