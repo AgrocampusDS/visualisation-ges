@@ -107,7 +107,7 @@ p2<-temporel %>%
   ggtitle("Pays ayant des émissions de CO2 totales \n pour 1000 habitants les plus élevées") +
   xlab("") +
   ylab("Emmission de CO2 totale \n (tonnes / 1000 habitants)") +
-  geom_text(aes(label=round(TOTAL,1)), position=position_dodge(width=0.9), vjust=-0.25) +
+  #geom_text(aes(label=round(TOTAL,1)), position=position_dodge(width=0.9), vjust=-0.25) +
   theme(
     panel.background = element_blank(),
     panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "grey"),
