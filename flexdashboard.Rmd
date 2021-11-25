@@ -33,36 +33,40 @@ library(plotly)
 
 
 ```{r data, include=FALSE}
-temporel<-read.csv("temporel.csv",header=T,sep=";")
+temporel<-read.csv("temporel3.csv",header=T,sep=";")
 GES<-read.csv("GES1.csv", header = T, sep=";")
+
+bold.country <- c("China", "United States","India")
+bold.labels <- ifelse(GES$Country %in% bold.country, yes = "bold", no = "plain")
+
 ```
 
 Row
 -----------------------------------------------------------------------
 
 
-### Some static graph
+### Une forte variabilité entre pays...
 
 ```{r bp1, echo = FALSE,  message = FALSE, warning=FALSE}
 p1<-GES %>% 
   mutate(tot = CO2_2016+CH4_2016) %>% 
-  mutate(prop = round(((tot/sum(tot)) * 100),1)) %>%
+  mutate(prop = round(((tot/sum(tot)) * 100),0)) %>%
   arrange(desc(prop)) %>%
-  slice(1:10) %>%
+  slice(1:20) %>%
   ggplot() +
   aes(x=reorder(Country,(-prop)), y=prop) +
   geom_bar(stat="identity", fill ="steelblue") +
-  ggtitle("10 pays les plus émetteurs de gazs à effets de serre") +
+  ggtitle("Les 20 pays les plus émetteurs de CO2 total") +
   xlab("") +
-  ylab("Part d'émmission de gazs à effets de serre (%)") +
+  ylab("Part d'émmission de CO2 total (% mondial)") +
   geom_text(aes(label=prop), vjust=1.6, color="white", size=3.5)+
-  theme_minimal() 
+  theme(axis.text.x = element_text(face="bold", size=9, angle=90, hjust = 1))
 p1  
 
 ```
 
 
-### Autre graph
+### Pouvant s'expliquer par leur population et leur mode de vie ...
 
 ```{r bp2, echo = FALSE,  message = FALSE, warning=FALSE}
 
@@ -72,20 +76,18 @@ p2<-CO2tot_2016 %>%
   ggplot()+
   aes(x = reorder(Country.Name,(-TOTAL)), y = TOTAL) +
   geom_bar(stat = 'identity',fill ="steelblue")+ 
+  ggtitle("Pays ayant des émissions de CO2 totales \n par habitant les plus élevées") +
   xlab("") +
-  ylab("Part d'émmission de gazs à effets de serre (%)") +
-  geom_text(aes(label=round(TOTAL,1)), vjust=1.6, color="white", size=3.5)+
-  theme(axis.text.x = element_text(face="bold", color="#993333", size=9, angle=90))
-  #labs(y='CO2 (t/hab)',hjust=0.9)
-#labs(title='Classement des pays les plus émetteurs de CO2 par ordre décroissant en 2016')
-
+  ylab("Émmission de CO2 totale (tonnes par habitant)") +
+  geom_text(aes(label=round(TOTAL,0)), vjust=1.6, color="white", size=3.5)+
+  theme(axis.text.x = element_text(face="bold", size=9, angle=90,hjust = 1))
 p2
 ```
 
 Row
 -----------------------------------------------------------------------
 
-### Chart C
+### Mais aussi par leur histoire
 
 ```{r graph_chrono,  echo = FALSE,  message = FALSE, warning=FALSE}
 p3 <- temporel %>% 
@@ -102,18 +104,19 @@ p3 <- temporel %>%
   geom_segment(x = 2000, y = 2, xend = 2018, yend = 2,
                arrow = arrow(length = unit(0.2, "cm"), ends = "both"),
                colour = "red") +
-  annotate("text", x = 2010, y = 3.5, 
+  annotate("text", x = 2010, y = 4, 
+           size = 3,
            label = "Croissance du \n secteur manufacturier",
            fontface = 3,
            colour = "red") +
-  annotate("text", x = 1996, y = 30, 
+  annotate("text", x = 1999, y = 30, 
            label = "Fin de la guerre froide",
            fontface = 3,
            colour = "#2596be") +
   labs("text", x = 2020, y = -2, 
            label = "Source : Banque Mondiale (2018)",
            fontface = 3) +
-  ggtitle('Évolution  des émissions de gazs à effet de serre par pays depuis 1970') +  
+  ggtitle('Évolution  des émissions de CO2 total par pays \n depuis 1970') +  
   xlab("") + 
   ylab("émissions de gazs à effet de serre en tonnes par habitants") +
   theme(
