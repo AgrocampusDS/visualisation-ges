@@ -6,6 +6,8 @@ output:
     theme: bootstrap
     orientation: columns
     vertical_layout: fill
+    navbar:
+      - { title: "Sources : la Banque Mondiale", href: "https://donnees.banquemondiale.org/indicator/EN.ATM.CO2E.KT?end=2018&start=2010" }
 params:
   setup_path: ../resources/
 ---
@@ -26,20 +28,28 @@ color:black!important;
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(tidyverse)
-library(ggplot2)
-library(plotly)
 ```
 
 
 
 ```{r data, include=FALSE}
+# import des jeux de données 
+
 temporel<-read.csv("temporel3.csv",header=T,sep=";")
 GES<-read.csv("GES1.csv", header = T, sep=";")
 
-bold.country <- c("China", "United States","India")
-bold.labels <- ifelse(GES$Country %in% bold.country, yes = "bold", no = "plain")
+# création des vecteur pour accentuer certains pays sur les barplots
+FR1 <- c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0)
+bold.labels1 <- ifelse(FR1 == 1, yes = "bold", no = "plain")
+
+FR2 <- c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0)
+bold.labels2 <- ifelse(FR2 == 1, yes = "bold", no = "plain")
+
+accentuation1<-c(27.3,0,0,0,0,0,0,0,0,0,0,0,0,1.2,0,0,0,0,0,0)
+accentuation2<-c(0,20.8,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
 
 ```
+
 
 Row
 -----------------------------------------------------------------------
@@ -48,19 +58,33 @@ Row
 ### Une forte variabilité entre pays...
 
 ```{r bp1, echo = FALSE,  message = FALSE, warning=FALSE}
-p1<-GES %>% 
+# Barplot des émissions de CO2 totales 
+p1<-GES  %>%
+  # calcul des proportions totales (CO2 + CH4)
   mutate(tot = CO2_2016+CH4_2016) %>% 
-  mutate(prop = round(((tot/sum(tot)) * 100),0)) %>%
+  mutate(prop = round(((tot/sum(tot)) * 100),1)) %>%
+  # selection des 20 pays les plus émetteurs
   arrange(desc(prop)) %>%
   slice(1:20) %>%
+  # création du graph
   ggplot() +
   aes(x=reorder(Country,(-prop)), y=prop) +
-  geom_bar(stat="identity", fill ="steelblue") +
-  ggtitle("Les 20 pays les plus émetteurs de CO2 total") +
+  geom_bar(stat="identity", fill ="#D8CFC0") +
+  # mise en surbrillance de la chine et de l'australie
+  geom_bar(aes(y=accentuation1),
+           stat="identity",
+           fill = "#FC7753") +  
+  ggtitle("Les 20 pays les plus émetteurs de CO2") +
   xlab("") +
-  ylab("Part d'émmission de CO2 total (% mondial)") +
-  geom_text(aes(label=prop), vjust=1.6, color="white", size=3.5)+
-  theme(axis.text.x = element_text(face="bold", size=9, angle=90, hjust = 1))
+  ylab("Part d'émmission de \n CO2 total (% mondial)") +
+  # pourcentages au dessus des barres
+  geom_text(aes(label=prop), position=position_dodge(width=0.9), vjust=-0.25) +
+  theme(
+    panel.background = element_blank(),
+    panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "grey"), 
+    axis.text.x = element_text(face=bold.labels1, size=12, angle=45, hjust = 1),
+    axis.title.y = element_text(size=13),
+    plot.title = element_text(size = 15))  
 p1  
 
 ```
@@ -70,17 +94,26 @@ p1
 
 ```{r bp2, echo = FALSE,  message = FALSE, warning=FALSE}
 
-CO2tot_2016<-temporel %>% filter(Annee=="2016")
-
-p2<-CO2tot_2016 %>% 
-  ggplot()+
-  aes(x = reorder(Country.Name,(-TOTAL)), y = TOTAL) +
-  geom_bar(stat = 'identity',fill ="steelblue")+ 
-  ggtitle("Pays ayant des émissions de CO2 totales \n par habitant les plus élevées") +
-  xlab("") +
-  ylab("Emmission de CO2 totale (tonnes par habitant)") +
-  geom_text(aes(label=round(TOTAL,0)), vjust=1.6, color="white", size=3.5)+
-  theme(axis.text.x = element_text(face="bold", size=9, angle=90,hjust = 1))
+# graph des émissions de CO2 totales rammenée à 1000 habitants
+p2<-temporel %>%
+  filter(Annee=="2016") %>%
+  slice(1:20) %>%
+  ggplot() + 
+  aes(x = reorder(Country.Name,(-TOTAL)), y = TOTAL) 
+  #geom_bar(stat = 'identity',fill ="#D8CFC0")
+  # geom_bar(aes(y=accentuation2),
+  #          stat="identity",
+  #          fill = "#FC7753") +
+  # ggtitle("Pays ayant des émissions de CO2 totales \n pour 1000 habitants les plus élevées") +
+  # xlab("") +
+  # ylab("Emmission de CO2 totale \n (tonnes / 1000 habitants)") +
+  # geom_text(aes(label=round(TOTAL,1)), position=position_dodge(width=0.9), vjust=-0.25) +
+  # theme(
+  #   panel.background = element_blank(),
+  #   panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = "grey"),
+  #   axis.text.x = element_text(face=bold.labels2, size=12, angle=45, hjust = 1),
+  #   axis.title.y = element_text(size=13),
+  #   plot.title = element_text(size = 15))
 p2
 ```
 
@@ -90,12 +123,15 @@ Row
 ### Mais aussi par leur histoire
 
 ```{r graph_chrono,  echo = FALSE,  message = FALSE, warning=FALSE}
+# graph représentation d'une série temporelle : l'évolution des émissions de CO2 depuis 1970
+
 p3 <- temporel %>% 
   filter(Country.Name %in% c("United States","France","Russia","China","Germany")) %>% 
   ggplot()+
   aes(x=Annee,y=TOTAL,color=Country.Name)+
   coord_cartesian(expand = FALSE, clip = "off") +
   geom_line(size=1) +
+  # ajout d'une flèche et d'un rectangle pour souligner 2 périodes
   annotate("rect", 
            xmin = 1989, xmax = 1990, 
            ymin = 0, ymax = 32, 
@@ -104,6 +140,7 @@ p3 <- temporel %>%
   geom_segment(x = 2000, y = 2, xend = 2018, yend = 2,
                arrow = arrow(length = unit(0.2, "cm"), ends = "both"),
                colour = "red") +
+  # ajout des annotations
   annotate("text", x = 2010, y = 4, 
            size = 3,
            label = "Croissance du \n secteur manufacturier",
@@ -113,15 +150,13 @@ p3 <- temporel %>%
            label = "Fin de la guerre froide",
            fontface = 3,
            colour = "#2596be") +
-  labs("text", x = 2020, y = -2, 
-           label = "Source : Banque Mondiale (2018)",
-           fontface = 3) +
   ggtitle('Evolution  des émissions de CO2 total par pays \n depuis 1970') +  
   xlab("") + 
-  ylab("émissions de gazs à effet de serre en tonnes par habitants") +
+  ylab("émissions de CO2 total tonnes par habitants") +
   theme(
     panel.background = element_blank(),
     axis.line = element_line(colour = "black"),
     legend.title=element_blank())
 p3
 ```
+
