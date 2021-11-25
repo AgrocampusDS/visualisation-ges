@@ -152,7 +152,7 @@ p3 <- temporel %>%
            colour = "#2596be") +
   ggtitle('Evolution  des émissions de CO2 total par pays \n depuis 1970') +  
   xlab("") + 
-  ylab("émissions de CO2 total tonnes par habitants") +
+  ylab("émissions de CO2 total (tonnes par habitant)") +
   theme(
     panel.background = element_blank(),
     axis.line = element_line(colour = "black"),
