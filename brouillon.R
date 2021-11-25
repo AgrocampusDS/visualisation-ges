@@ -2,7 +2,7 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
-temporel3<-read.csv("temporel3.csv",header=T,sep=";")
+
 temporel<-read.csv("temporel.csv",header=T,sep=";")
 GES<-read.csv("GES1.csv", header = T, sep=";")
 
@@ -26,7 +26,7 @@ GES %>%
   
 
 # Classement des pays les plus émetteurs de CO2 (t/hab) par ordre décroissant en 2016
-
+temporel3<-read.csv("temporel3.csv",header=T,sep=";")
 CO2tot_2016<-temporel3 %>% filter(Annee=="2016")
 
 graphgen<-CO2tot_2016 %>% 
