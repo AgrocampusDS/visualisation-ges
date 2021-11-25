@@ -99,8 +99,8 @@ p2<-temporel %>%
   filter(Annee=="2016") %>%
   slice(1:20) %>%
   ggplot()+
-  aes(x = reorder(Country.Name,(-TOTAL)), y = TOTAL) +
-  geom_bar(stat = 'identity',fill ="#D8CFC0")
+  #aes(x = reorder(Country.Name,(-TOTAL)), y = TOTAL) +
+  #geom_bar(stat = 'identity',fill ="#D8CFC0")
   # geom_bar(aes(y=accentuation2),
   #          stat="identity",
   #          fill = "#FC7753") +
