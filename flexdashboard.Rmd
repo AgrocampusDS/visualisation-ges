@@ -1,5 +1,5 @@
 ---
-title: "Facteurs de variation des émissions de gazs à effet de serre"
+title: "Facteurs de variation des émissions de gaz à effet de serre"
 author: "Florence Ghestem et Gaëlle Hamelin"
 output: 
   flexdashboard::flex_dashboard:
