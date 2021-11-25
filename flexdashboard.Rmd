@@ -116,7 +116,7 @@ p3 <- temporel %>%
   labs("text", x = 2020, y = -2, 
            label = "Source : Banque Mondiale (2018)",
            fontface = 3) +
-  ggtitle('Évolution  des émissions de CO2 total par pays \n depuis 1970') +  
+  ggtitle('Evolution  des émissions de CO2 total par pays \n depuis 1970') +  
   xlab("") + 
   ylab("émissions de gazs à effet de serre en tonnes par habitants") +
   theme(
