@@ -2,6 +2,7 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 
+
 temporel<-read.csv("temporel.csv",header=T,sep=";")
 GES<-read.csv("GES1.csv", header = T, sep=";")
 
@@ -25,8 +26,8 @@ GES %>%
 
 
 # Classement des pays les plus émetteurs de CO2 (t/hab) par ordre décroissant en 2016
-
-CO2tot_2016<-temporel %>% filter(Annee=="2016")
+temporel3<-read.csv("temporel3.csv",header=T,sep=";")
+CO2tot_2016<-temporel3 %>% filter(Annee=="2016")
 
 graphgen<-CO2tot_2016 %>% 
   ggplot(aes(fct_rev(fct_reorder(Country.Name,
@@ -34,14 +35,14 @@ graphgen<-CO2tot_2016 %>%
   geom_bar(stat = 'identity',color="pink")+ 
   labs(x='country',hjust=0.9)+
   theme(axis.text.x = element_text(face="bold", color="#993333", size=9, angle=90))+
-  labs(y='CO2 (t/hab)',hjust=0.9)
+  labs(y='CO2 (t/hab)',hjust=0.9)+
 labs(title='Classement des pays les plus émetteurs de CO2 par ordre décroissant en 2016')
 
 graphgen
 
 
 # Evolution des émissions de CO2 (t/hab) selon le pays depuis 1970
-temporel %>% filter(Country.Name==c("United States","France","Russia","China",
+temporel%>% filter(Country.Name==c("United States","France","Russia","China",
                                     "Germany","Korea","Saudi Arabia")) %>% 
   ggplot()+
   aes(x=Annee,y=TOTAL,color=Country.Name)+
@@ -51,6 +52,8 @@ temporel %>% filter(Country.Name==c("United States","France","Russia","China",
   ggtitle('Évolution  des émissions de CO2 par pays') +  
   xlab("année") + ylab("émissions de CO2 t/ hab") 
 
+<<<<<<< HEAD
+=======
 
 # Graph 2 harmonisé : pays les plus émetteurs de CO2 (t/hab) par ordre décroissant en 2016
 
@@ -103,3 +106,4 @@ temporel %>%
     panel.background = element_blank(),
     axis.line = element_line(colour = "black"),
     legend.title=element_blank())
+>>>>>>> db7dadb398b33a4f3adf96787bfd7e098fdd7cdc

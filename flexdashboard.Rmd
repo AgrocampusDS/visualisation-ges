@@ -1,5 +1,5 @@
 ---
-title: "Facteurs de variation des émissions de gazs à effet de serre"
+title: "Facteurs de variation des émissions de gaz à effet de serre"
 author: "Florence Ghestem et Gaëlle Hamelin"
 output: 
   flexdashboard::flex_dashboard:
@@ -58,7 +58,7 @@ Row
 ### Une forte variabilité entre pays...
 
 ```{r bp1, echo = FALSE,  message = FALSE, warning=FALSE}
-# Barplot des émissions de CO2 totales 
+# Barplot des émissions de CO2 total 
 p1<-GES  %>%
   # calcul des proportions totales (CO2 + CH4)
   mutate(tot = CO2_2016+CH4_2016) %>% 
@@ -94,7 +94,7 @@ p1
 
 ```{r bp2, echo = FALSE,  message = FALSE, warning=FALSE}
 
-# graph des émissions de CO2 totales rammenée à 1000 habitants
+# graph des émissions de CO2 total (tonne) rammené par habitant
 p2<-temporel %>%
   filter(Annee=="2016") %>%
   slice(1:20) %>%
@@ -152,7 +152,7 @@ p3 <- temporel %>%
            colour = "#2596be") +
   ggtitle('Evolution  des émissions de CO2 total par pays \n depuis 1970') +  
   xlab("") + 
-  ylab("émissions de CO2 total tonnes par habitants") +
+  ylab("émissions de CO2 total (tonnes par habitant)") +
   theme(
     panel.background = element_blank(),
     axis.line = element_line(colour = "black"),
